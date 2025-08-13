@@ -1,0 +1,217 @@
+:root {
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --cyan: #00e5ff;
+    --purple: #7e57c2;
+    --gradient-dark: linear-gradient(135deg, var(--black), var(--purple));
+    --gradient-light: linear-gradient(135deg, var(--cyan), var(--purple));
+}
+
+body {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+/* Layout helper */
+.section-wrap {
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Navbar */
+.navbar {
+    background: var(--gradient-dark);
+    padding: 1rem 0;
+}
+
+.navbar .nav-link {
+    color: var(--white) !important;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar .nav-link:hover {
+    color: var(--cyan) !important;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* HERO */
+#hero {
+    background: url('../img/hero.jpg') center/cover no-repeat;
+}
+
+.hero-img {
+    height: 65vh;
+    object-fit: cover;
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Hero Carousel Responsif */
+@media (max-width: 992px) {
+    .hero-img {
+        height: 50vh; /* tablet */
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-img {
+        height: 40vh; /* mobile */
+    }
+}
+
+
+/* Animasi fade-up */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.carousel-caption { opacity: 0; }
+.carousel-item.active .carousel-caption {
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.3s;
+}
+
+/* My Project */
+#services {
+    background-color: #111;
+}
+
+.card-img-top {
+    border: 2px solid var(--cyan);
+    border-radius: .6rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.03);
+    box-shadow: 0 0 16px var(--cyan);
+}
+
+/* About */
+#about {
+    position: relative;
+    overflow: hidden;
+}
+
+#about::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('../img/hero.jpg') center/cover no-repeat;
+    opacity: 0.15;
+    transition: opacity 0.4s ease-in-out;
+    z-index: 0;
+}
+
+#about:hover::before {
+    opacity: 0.35;
+}
+
+#about>.container { position: relative; z-index: 1; }
+
+/* Section title */
+.section-title {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid var(--cyan);
+    border-radius: .6rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-weight: bold;
+    box-shadow: 0 0 10px var(--cyan);
+    margin-bottom: 2rem;
+}
+
+/* Heading hover */
+.heading-hover {
+    display: inline-block;
+    padding: 0.45rem 0.8rem;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.heading-hover:hover {
+    color: var(--purple);
+    text-shadow: 0 0 8px var(--purple);
+    background-color: rgba(0, 229, 255, 0.12);
+    box-shadow: 0 0 12px var(--cyan);
+    transform: translateY(-2px);
+}
+
+/* About images */
+.img-slot-lg {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: .6rem;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+    margin-bottom: 1rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.img-slot-lg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 16px var(--cyan);
+}
+
+/* Contact form */
+.form-control {
+    border: 1px solid var(--cyan);
+    border-radius: .5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--white);
+    padding: 0.8rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 10px var(--cyan);
+}
+
+/* Buttons */
+.btn-primary {
+    background: var(--gradient-light);
+    border: none;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: var(--gradient-dark);
+    box-shadow: 0 0 15px var(--cyan);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+    background: var(--gradient-dark);
+    color: var(--white);
+    padding: 1.2rem;
+    margin-top: 0;
+}
