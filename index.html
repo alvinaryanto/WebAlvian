@@ -1,126 +1,488 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latihan 3 - Alvian</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Latihan Bootstrap 5 - Rata Tengah</title>
+    <link href="asset/css/bootstrap.css" rel="stylesheet" />
     <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --cyan: #00e5ff;
+            --purple: #7e57c2;
+            --gradient-dark: linear-gradient(135deg, var(--black), var(--purple));
+            --gradient-light: linear-gradient(135deg, var(--cyan), var(--purple));
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        /* Layout helper (kembali seperti versi awal) */
+        .section-wrap {
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--gradient-dark);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .navbar .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .navbar .nav-link:hover {
+            color: var(--cyan) !important;
+        }
+
         .logo {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: white;
+            background: var(--white);
+            border: 2px solid var(--cyan);
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid black;
-            font-weight: bold;
+            font-weight: 600;
+            overflow: hidden;
         }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Section Base */
+        section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            transition: background 0.4s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        section:hover {
+            transform: scale(1.01);
+        }
+
+        /* Section Colors (dipertahankan) */
+
+        #hero {
+            background: url('asset/img/hero.jpg') center/cover no-repeat;
+            /* slot gambar HERO */
+            color: var(--black);
+            position: relative;
+        }
+
+        /* overlay tanpa ubah struktur HTML */
+        #hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 0;
+        }
+
+        .hero-box {
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            /* di atas overlay */
+            color: #fff;
+            /* teks tetap terbaca di atas overlay */
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-img {
+            height: 65vh;
+            object-fit: cover;
+        }
+
+        .carousel-caption h5,
+        .carousel-caption p {
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Animasi fade-up */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Reset animasi tiap slide ganti */
+        .carousel-caption {
+            opacity: 0;
+        }
+
+        .carousel-item.active .carousel-caption {
+            animation: fadeUp 0.8s ease forwards;
+            animation-delay: 0.3s;
+            /* jeda sedikit setelah gambar muncul */
+        }
+
+
+        #services {
+            background-color: #111;
+            border-top: 4px solid var(--cyan);
+            border-bottom: 4px solid var(--purple);
+        }
+
+        /* Background tipis untuk About */
+        /* Background tipis untuk About */
+        #about {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #about::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('asset/img/hero.jpg') center/cover no-repeat;
+            opacity: 0.15;
+            /* tipis awal */
+            transition: opacity 0.4s ease-in-out;
+            /* transisi halus */
+            z-index: 0;
+        }
+
+        #about:hover::before {
+            opacity: 0.35;
+            /* lebih jelas saat hover */
+        }
+
+        #about>.container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Efek hover untuk gambar di My Project */
+        .card-img-top {
+            border: 2px solid var(--cyan);
+            border-radius: .6rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.03);
+            box-shadow: 0 0 16px var(--cyan);
+        }
+
+
+        #contact {
+            background: var(--gradient-dark);
+        }
+
+        /* Title */
+        .section-title {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--cyan);
+            border-radius: .6rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--cyan);
+            margin-bottom: 2rem;
+        }
+
+        /* Wave */
         .wave {
-            width: 150px;
-            height: 120px;
-            background: white;
-            border: 1px solid black;
-            clip-path: path("M0,60 C40,20 80,100 120,60 C160,20 200,100 240,60 L240,120 L0,120 Z");
+            width: 260px;
+            height: 96px;
+            background: var(--cyan);
+            border: 1px solid var(--white);
+            margin: 0 auto;
+            clip-path: path("M0,30 C50,70 100,0 150,40 L150,80 C100,40 50,110 0,70 Z");
+            box-shadow: 0 0 15px var(--purple);
+        }
+
+        /* Form */
+        .form-control {
+            border: 1px solid var(--cyan);
+            border-radius: .5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            padding: 0.8rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-control:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        /* Button */
+        .btn-primary {
+            background: var(--gradient-light);
+            border: none;
+            font-weight: bold;
+            padding: 0.8rem 1.5rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-dark);
+            box-shadow: 0 0 15px var(--cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient-dark);
+            color: var(--white);
+            padding: 1.2rem;
+            margin-top: 0;
+        }
+
+        /* Heading hover effect (box highlight + glow) */
+        .heading-hover {
+            display: inline-block;
+            padding: 0.45rem 0.8rem;
+            border-radius: 0.5rem;
+            transition:
+                color 0.25s ease-in-out,
+                text-shadow 0.25s ease-in-out,
+                background-color 0.25s ease-in-out,
+                box-shadow 0.25s ease-in-out,
+                transform 0.25s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.02);
+            /* sedikit beda dari bg */
+        }
+
+        .heading-hover:hover {
+            color: var(--bs-purple) !important;
+            text-shadow: 0 0 8px var(--bs-purple);
+            background-color: rgba(0, 229, 255, 0.12);
+            box-shadow: 0 0 12px var(--cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Slot gambar untuk Services & About */
+        .img-slot {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: .6rem;
+            border: 2px solid var(--cyan);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+            margin-bottom: .75rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .img-slot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 16px var(--cyan);
+        }
+
+        .img-slot-lg {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: .6rem;
+            border: 2px solid var(--cyan);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+            margin-bottom: 1rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .img-slot-lg:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 16px var(--cyan);
         }
     </style>
 </head>
+
 <body>
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg" style="background-color: #f8d9b0;">
-    <div class="container">
-        <div class="logo">Logo</div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="menu">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- Hero -->
-<div class="text-center py-5" style="background-color: #cce0ff;">
-    <h1>Hero Section</h1>
-    <p>Image, Slogan, Kontak, dll</p>
-</div>
-
-<!-- Services -->
-<section class="py-5" style="background-color: #f8e7b0;">
-    <div class="container text-center">
-        <h2 class="mb-4">Services</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <h3>Heading</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed</p>
-                </div>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container section-wrap">
+            <div class="logo">
+                <img src="asset/img/LOGO.png" alt="LOGO">
             </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <h3>Heading</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <h3>Heading</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed</p>
-                </div>
+            <p class="h4 px-3">Michael Alvian</p>
+            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto gap-3">
+                    <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">My Project</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
             </div>
         </div>
-    </div>
-</section>
+    </nav>
 
-<!-- About -->
-<section class="py-5" style="background-color: #d6cce0;">
-    <div class="container text-center">
-        <h2 class="mb-4">About</h2>
-        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
-        <div class="row align-items-center">
-            <div class="col-md-6 text-start">
-                <h3>Heading</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <!-- HERO CAROUSEL -->
+    <section id="hero">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
             </div>
-            <div class="col-md-6 text-center">
-                <h3>Performance</h3>
-                <div class="wave mx-auto mt-3"></div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="asset/img/hero1.jpg" class="d-block w-100 hero-img" alt="Slide 1">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>First slide label</h5>
+                        <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="asset/img/hero2.jpg" class="d-block w-100 hero-img" alt="Slide 2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="asset/img/hero3.jpg" class="d-block w-100 hero-img" alt="Slide 3">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+
+    <!-- MY PROJECT -->
+    <section id="services" class="text-center">
+        <div class="container section-wrap px-4">
+            <span class="section-title">My Project</span>
+            <div class="row g-4 mt-1">
+                <!-- Project 1 -->
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
+                        <img src="asset/img/LOGO.png" class="card-img-top" alt="Project 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Project Satu</h5>
+                            <p class="card-text">Deskripsi singkat tentang project ini. Bisa berupa penjelasan fungsi
+                                atau tujuan.</p>
+                            <a href="#" class="btn btn-primary">Detail</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
+                        <img src="asset/img/LOGO.png" class="card-img-top" alt="Project 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Project Dua</h5>
+                            <p class="card-text">Deskripsi singkat tentang project ini. Bisa berupa penjelasan fungsi
+                                atau tujuan.</p>
+                            <a href="#" class="btn btn-primary">Detail</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
+                        <img src="asset/img/LOGO.png" class="card-img-top" alt="Project 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Project Tiga</h5>
+                            <p class="card-text">Deskripsi singkat tentang project ini. Bisa berupa penjelasan fungsi
+                                atau tujuan.</p>
+                            <a href="#" class="btn btn-primary">Detail</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Contact -->
-<section class="py-5" style="background-color: #cce0cc;">
-    <div class="container text-center">
-        <h2 class="mb-4">Contact</h2>
-        <form class="mx-auto" style="max-width: 500px;">
-            <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Nama">
-            </div>
-            <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Email">
-            </div>
-            <div class="mb-3">
-                <textarea class="form-control" placeholder="Pesan" rows="4"></textarea>
-            </div>
-            <button class="btn btn-primary">Kirim</button>
-        </form>
-    </div>
-</section>
 
-<!-- Footer -->
-<footer class="py-3 text-center" style="background-color: #f8d9b0;">
-    Footer
-</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ABOUT -->
+    <section id="about" class="text-center">
+        <div class="container section-wrap px-4">
+            <span class="section-title">About</span>
+            <p class="mb-5 col-12 col-lg-10 mx-auto text-white-50">Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit, sed do
+                eiusmod</p>
+            <div class="row align-items-start justify-content-center text-start g-4">
+                <div class="col-12 col-md-6">
+                    <!-- slot gambar about (tanpa menghapus teks yang ada) -->
+                    <img src="asset/img/about.jpg" class="img-slot-lg" alt="About Image">
+                    <h4 class="fw-bold mb-2 text-primary heading-hover">Heading</h4>
+                    <p class="mb-0 text-white-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                        eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div class="col-12 col-md-6 text-center">
+                    <h4 class="fw-bold mb-2 text-primary heading-hover">Performance</h4>
+                    <div class="wave mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="text-center">
+        <div class="container section-wrap px-4">
+            <span class="section-title">Contact</span>
+            <form class="col-12 col-lg-8 mx-auto">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <input type="text" class="form-control" placeholder="Nama" />
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <input type="email" class="form-control" placeholder="Email" />
+                    </div>
+                    <div class="col-12">
+                        <textarea class="form-control" rows="4" placeholder="Pesan"></textarea>
+                    </div>
+                    <div class="col-12 text-start mt-3">
+                        <button type="button" class="btn btn-primary">Kirim</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="text-center">Footer</footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="asset/js/bootstrap.bundle.js"></script>
 </body>
+
 </html>
