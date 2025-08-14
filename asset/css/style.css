@@ -54,7 +54,7 @@ body {
 
 /* HERO */
 #hero {
-    background: url('../img/hero.jpg') center/cover no-repeat;
+    background: url('../img/head-bg.png') center/cover no-repeat;
 }
 
 .hero-img {
