@@ -1,3 +1,6 @@
+/* =========================
+   🎨 ROOT & GLOBAL
+========================= */
 :root {
     --black: #0a0a0a;
     --white: #ffffff;
@@ -12,16 +15,102 @@ body {
     color: var(--white);
 }
 
-/* Layout helper */
 .section-wrap {
     max-width: 1000px;
     margin: auto;
 }
 
-/* Navbar */
+.brand-name {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 6px rgba(0, 229, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+/* =========================
+   📱 MOBILE OPTIMIZATION
+========================= */
+@media (max-width: 576px) {
+    /* Hero Section */
+    .hero-img {
+        height: 35vh; /* lebih pendek agar muat di layar */
+    }
+
+    .carousel-caption h5 {
+        font-size: 1.1rem;
+    }
+    .carousel-caption p {
+        font-size: 0.9rem;
+    }
+
+    /* Brand Name */
+    .brand-name {
+        font-size: 1.4rem; /* mengecilkan teks brand */
+        letter-spacing: 0.5px;
+    }
+
+    /* Navbar Logo */
+    .logo {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Card */
+    .card-img-top {
+        height: 150px; /* lebih pendek agar muat */
+    }
+    .card-body {
+        padding: 0.6rem;
+    }
+
+    /* Section Title */
+    .section-title {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    /* About Image */
+    .img-slot-lg {
+        height: 180px;
+    }
+
+    /* Form */
+    .form-control {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+    .btn-primary {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+        font-size: 0.85rem;
+        padding: 1rem;
+    }
+
+    .wave-top {
+        display: none;
+    }
+    .wave-bottom {
+        display: none;
+    }
+}
+
+
+/* =========================
+   🧭 NAVBAR
+========================= */
 .navbar {
     background: var(--gradient-dark);
     padding: 1rem 0;
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
 }
 
 .navbar .nav-link {
@@ -34,6 +123,7 @@ body {
     color: var(--cyan) !important;
 }
 
+/* Logo */
 .logo {
     width: 60px;
     height: 60px;
@@ -52,13 +142,16 @@ body {
     object-fit: contain;
 }
 
-/* HERO */
+/* =========================
+   🖼 HERO SECTION
+========================= */
 #hero {
-    background: url('../img/head-bg.png') center/cover no-repeat;
+    /* background: url('../img/bg-hitam.png') center/cover no-repeat; */
+    background-color: rgba(6, 2, 26, 0.192)
 }
 
 .hero-img {
-    height: 65vh;
+    height: 75vh;
     object-fit: cover;
 }
 
@@ -67,23 +160,29 @@ body {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-/* Hero Carousel Responsif */
+.carousel-caption {
+    opacity: 0;
+}
+
+.carousel-item.active .carousel-caption {
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.3s;
+}
+
+/* Responsive Hero */
 @media (max-width: 992px) {
     .hero-img {
         height: 50vh;
-        /* tablet */
     }
 }
 
 @media (max-width: 576px) {
     .hero-img {
         height: 40vh;
-        /* mobile */
     }
 }
 
-
-/* Animasi fade-up */
+/* Animasi Fade Up */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -96,16 +195,13 @@ body {
     }
 }
 
-#services {
-    position: relative;
-    background-color: #111;
-    overflow: hidden;
-}
-
+/* =========================
+   🌊 WAVE EFFECT
+========================= */
 .wave-svg {
     position: absolute;
     left: 0;
-    width: 100%;
+    width: 200%;
     height: auto;
 }
 
@@ -119,49 +215,45 @@ body {
 }
 
 .wave-svg path {
-    animation: waveMotion 8s ease-in-out infinite;
+    animation: waveMotion 6s ease-in-out infinite;
 }
 
 @keyframes waveMotion {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-50px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-5%);
+    }
+
+    /* gerakan tipis */
 }
 
 
-.carousel-caption {
-    opacity: 0;
-}
 
-.carousel-item.active .carousel-caption {
-    animation: fadeUp 0.8s ease forwards;
-    animation-delay: 0.3s;
-}
-
-/* Pastikan semua card sama tinggi */
+/* =========================
+   📦 CARD
+========================= */
 .card {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-/* Gambar dengan tinggi konsisten */
 .card-img-top {
-    height: 280px; /* atur sesuai kebutuhan */
+    height: 280px;
     object-fit: cover;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Card body agar mendorong tombol ke bawah */
 .card-body {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-
-.card:hover .card-img-top {
-    transform: scale(1.03);
-    box-shadow: 0 0 16px var(--cyan);
 }
 
 .card-hover {
@@ -175,8 +267,14 @@ body {
     box-shadow: 0 0 16px var(--cyan), 0 0 32px rgba(0, 229, 255, 0.4);
 }
 
+.card:hover .card-img-top {
+    transform: scale(1.03);
+    box-shadow: 0 0 16px var(--cyan);
+}
 
-/* About */
+/* =========================
+   👤 ABOUT SECTION
+========================= */
 #about {
     position: relative;
     overflow: hidden;
@@ -201,7 +299,6 @@ body {
     z-index: 1;
 }
 
-/* Section title */
 .section-title {
     display: inline-block;
     padding: 0.8rem 1.5rem;
@@ -214,7 +311,6 @@ body {
     margin-bottom: 2rem;
 }
 
-/* Heading hover */
 .heading-hover {
     display: inline-block;
     padding: 0.45rem 0.8rem;
@@ -231,7 +327,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* About images */
+/* About Images */
 .img-slot-lg {
     width: 100%;
     height: 260px;
@@ -248,7 +344,9 @@ body {
     box-shadow: 0 0 16px var(--cyan);
 }
 
-/* Contact form */
+/* =========================
+   📩 CONTACT FORM
+========================= */
 .form-control {
     border: 1px solid var(--cyan);
     border-radius: .5rem;
@@ -278,10 +376,21 @@ body {
     transform: translateY(-2px);
 }
 
-/* Footer */
+/* =========================
+   ⚓ FOOTER
+========================= */
 footer {
     background: var(--gradient-dark);
     color: var(--white);
     padding: 1.2rem;
     margin-top: 0;
 }
+
+/* =========================
+   📱 RESPONSIVE BODY PADDING
+========================= */
+/* @media (max-width: 576px) {
+    body {
+        padding-top: 70px;
+    }
+} */
