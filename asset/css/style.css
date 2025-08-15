@@ -70,44 +70,111 @@ body {
 /* Hero Carousel Responsif */
 @media (max-width: 992px) {
     .hero-img {
-        height: 50vh; /* tablet */
+        height: 50vh;
+        /* tablet */
     }
 }
 
 @media (max-width: 576px) {
     .hero-img {
-        height: 40vh; /* mobile */
+        height: 40vh;
+        /* mobile */
     }
 }
 
 
 /* Animasi fade-up */
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.carousel-caption { opacity: 0; }
+#services {
+    position: relative;
+    background-color: #111;
+    overflow: hidden;
+}
+
+.wave-svg {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+}
+
+.wave-top {
+    top: 0;
+    transform: rotate(180deg);
+}
+
+.wave-bottom {
+    bottom: 0;
+}
+
+.wave-svg path {
+    animation: waveMotion 8s ease-in-out infinite;
+}
+
+@keyframes waveMotion {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-50px); }
+}
+
+
+.carousel-caption {
+    opacity: 0;
+}
+
 .carousel-item.active .carousel-caption {
     animation: fadeUp 0.8s ease forwards;
     animation-delay: 0.3s;
 }
 
-/* My Project */
-#services {
-    background-color: #111;
+/* Pastikan semua card sama tinggi */
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Gambar dengan tinggi konsisten */
 .card-img-top {
-    border: 2px solid var(--cyan);
-    border-radius: .6rem;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 280px; /* atur sesuai kebutuhan */
+    object-fit: cover;
 }
+
+/* Card body agar mendorong tombol ke bawah */
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 
 .card:hover .card-img-top {
     transform: scale(1.03);
     box-shadow: 0 0 16px var(--cyan);
 }
+
+.card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 2px solid var(--cyan);
+    border-radius: .6rem;
+}
+
+.card-hover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 16px var(--cyan), 0 0 32px rgba(0, 229, 255, 0.4);
+}
+
 
 /* About */
 #about {
@@ -129,7 +196,10 @@ body {
     opacity: 0.35;
 }
 
-#about>.container { position: relative; z-index: 1; }
+#about>.container {
+    position: relative;
+    z-index: 1;
+}
 
 /* Section title */
 .section-title {

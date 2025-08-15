@@ -7,6 +7,8 @@
     <title>Portfolio Michael Alvian</title>
     <link href="asset/css/bootstrap.css" rel="stylesheet" />
     <link href="asset/css/style.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -80,48 +82,81 @@
     </section>
 
     <!-- MY PROJECT -->
-    <section id="services" class="text-center py-5">
-        <div class="container section-wrap px-4">
-            <span class="section-title">My Project</span>
-            <div class="row g-4 mt-1">
+    <section id="services" class="text-center py-5 position-relative overflow-hidden">
+        <!-- Wave Top -->
+        <svg class="position-absolute top-0 start-0 w-100" style="z-index:0;" viewBox="0 0 1440 320"
+            preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="waveGradientTop" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#7e57c2" stop-opacity="0.4" />
+                </linearGradient>
+            </defs>
+            <path fill="url(#waveGradientTop)"
+                d="M0,160L60,165.3C120,171,240,181,360,186.7C480,192,600,192,720,181.3C840,171,960,149,1080,138.7C1200,128,1320,128,1380,128L1440,128L1440,0L0,0Z">
+            </path>
+        </svg>
+
+        <div class="container position-relative" style="z-index:1;">
+            <div class="bg-gradient-cyan-purple rounded-pill shadow-lg d-inline-block px-4 py-2 mb-4">
+                <span class="section-title mb-0">My Project</span>
+            </div>
+            <p class="mb-4 text-white-50 col-12 col-md-8 mx-auto">
+                Berikut beberapa project yang pernah saya kerjakan selama proses belajar dan pengembangan diri.
+            </p>
+            <div class="row g-4 justify-content-center">
                 <!-- Project 1 -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
-                        <img src="asset/img/a1.png" class="card-img-top" alt="Project 1">
+                <div class="col-12 col-md-3">
+                    <div class="card h-80 bg-dark text-white border-0 shadow-sm card-hover">
+                        <img src="asset/img/a1.png" class="card-img-top" alt="Website Bootstrap">
                         <div class="card-body">
                             <h5 class="card-title">Website Bootstrap</h5>
-                            <p class="card-text">Project dilakukan dengan menggunakan Bootstrap 5. diampu oleh Mas Sugi,
-                                selaku instruktur pemograman.</p>
+                            <p class="card-text">Membangun website responsif menggunakan Bootstrap 5, dipandu oleh Mas Sugi.
+                            </p>
                             <a href="#" class="btn btn-primary">Detail</a>
                         </div>
                     </div>
                 </div>
                 <!-- Project 2 -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
-                        <img src="asset/img/a2.jpg" class="card-img-top" alt="Project 2">
+                <div class="col-12 col-md-3">
+                    <div class="card h-80 bg-dark text-white border-0 shadow-sm card-hover">
+                        <img src="asset/img/a2.jpg" class="card-img-top" alt="Display Teks">
                         <div class="card-body">
                             <h5 class="card-title">Display Teks</h5>
-                            <p class="card-text">Project ini bertujuan untuk menampilkan teks dengan baik dan benar,
-                                serta diberi sound. diampu oleh Mas Johan, selaku instruktur protokol.</p>
+                            <p class="card-text">Menampilkan teks dengan sound, dipandu oleh Mas Johan.
+                            </p>
                             <a href="#" class="btn btn-primary">Detail</a>
                         </div>
                     </div>
                 </div>
                 <!-- Project 3 -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
-                        <img src="asset/img/bg-2.png" class="card-img-top" alt="Project 3">
+                <div class="col-12 col-md-3">
+                    <div class="card h-80 bg-dark text-white border-0 shadow-sm card-hover">
+                        <img src="asset/img/bg-2.png" class="card-img-top" alt="Diri Sendiri">
                         <div class="card-body">
                             <h5 class="card-title">Diri Sendiri</h5>
-                            <p class="card-text">Project yang dilakukan dengan niat, usaha, dan kerja keras yang
-                                konsisten</p>
+                            <p class="card-text">Project yang dilakukan dengan niat, usaha, dan kerja keras yang konsisten.
+                            </p>
                             <a href="#" class="btn btn-primary">Detail</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Wave Bottom -->
+        <svg class="position-absolute bottom-0 start-0 w-100" style="z-index:0;" viewBox="0 0 1440 320"
+            preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="waveGradientBottom" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#7e57c2" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.4" />
+                </linearGradient>
+            </defs>
+            <path fill="url(#waveGradientBottom)"
+                d="M0,96L80,101.3C160,107,320,117,480,138.7C640,160,800,192,960,181.3C1120,171,1280,117,1360,90.7L1440,64L1440,320L0,320Z">
+            </path>
+        </svg>
     </section>
 
 
@@ -130,14 +165,39 @@
         <div class="container section-wrap px-4">
             <span class="section-title">About Me</span>
             <p class="mb-5 col-12 col-lg-10 mx-auto text-white-50">Seorang anak pertama dari 4 bersaudara, bagi diriku
-                yang paling penting adalah niatku untuk melakukan sesuatu, semua pengalaman ini membangunku di titik yang sekarang</p>
+                yang paling penting adalah niatku untuk melakukan sesuatu, semua pengalaman ini membangunku di titik
+                yang sekarang</p>
             <div class="row align-items-start justify-content-center text-start g-4">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 text-center">
                     <h4 class="fw-bold mb-2 text-primary heading-hover">My Life</h4>
                     <img src="asset/img/bg-3.jpg" class="img-slot-lg" alt="About Image">
+
+                    <!-- Card Pendidikan -->
+                    <h4 class="fw-bold mb-2 text-primary heading-hover">Education</h4>
+
+                    <a href="https://sman3-slo.sch.id" target="_blank" class="text-decoration-none">
+                        <div class="card bg-dark text-white mt-3 mx-auto card-hover"
+                            style="max-width: 300px; cursor: pointer;">
+                            <div class="card-body p-3">
+                                <h6 class="card-title mb-1">SMA Negeri 3 Surakarta</h6>
+                                <small class="text-white-50">Jurusan IPA</small>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://atmi.ac.id/" target="_blank" class="text-decoration-none">
+                        <div class="card bg-dark text-white mt-2 mx-auto card-hover"
+                            style="max-width: 300px; cursor: pointer;">
+                            <div class="card-body p-3">
+                                <h6 class="card-title mb-1">Politeknik ATMI Surakarta</h6>
+                                <small class="text-white-50">Jurusan Mekatronika D4 (TRMK)</small>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-12 col-md-6 text-center">
-                    <h4 class="fw-bold mb-2 text-primary heading-hover">Performance</h4>
+                    <h4 class="fw-bold mb-2 text-primary heading-hover">Frontend Skills</h4>
+                    <canvas id="skillChart" width="400" height="300" class="my-4"></canvas>
                     <div class="wave mt-3 text-start">
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
@@ -218,9 +278,11 @@
                 <!-- Sosial Media -->
                 <div class="col-md-4 text-center text-md-end">
                     <a href="#" class="text-white mx-2"><i class="bi bi-facebook">facebook</i></a>
-                    <a href="#" class="text-white mx-2"><i class="bi bi-instagram">instagram</i></a>
+                    <a href="https://www.instagram.com/michaelalvian?igsh=MXN1bDhxbXhzY2I1ZA=="
+                        class="text-white mx-2"><i class="bi bi-instagram">instagram</i></a>
                     <a href="#" class="text-white mx-2"><i class="bi bi-linkedin">linkedin</i></a>
-                    <a href="#" class="text-white mx-2"><i class="bi bi-github">github</i></a>
+                    <a href="https://github.com/alvinaryanto" class="text-white mx-2"><i
+                            class="bi bi-github">github</i></a>
                 </div>
             </div>
 
@@ -238,6 +300,47 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="asset/js/bootstrap.bundle.js"></script>
     <script src="asset/js/js.js"></script>
+    <script>
+        const ctx = document.getElementById('skillChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['HTML & CSS', 'JavaScript', 'Bootstrap', 'Git & GitHub', 'Microsoft Office', 'Desain Grafis'],
+                datasets: [{
+                    label: 'Level Skill (%)',
+                    data: [90, 80, 85, 75, 88, 70],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+
+
 </body>
 
 </html>
