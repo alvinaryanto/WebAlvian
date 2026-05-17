@@ -1,3 +1,31 @@
+<?php
+// Membaca file .env secara manual dan sederhana
+if (file_exists('.env')) {
+    $lines = file('.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $_ENV[trim($name)] = trim($value);
+    }
+}
+
+// Mengambil konfigurasi dari .env (menggunakan port 3307 yang sudah kita setel)
+$host = isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : '127.0.0.1';
+$user = isset($_ENV['DB_USER']) ? $_ENV['DB_USER'] : 'root';
+$pass = isset($_ENV['DB_PASSWORD']) ? $_ENV['DB_PASSWORD'] : '';
+$db   = isset($_ENV['DB_NAME']) ? $_ENV['DB_NAME'] : 'portfolio_db';
+$port = isset($_ENV['DB_PORT']) ? $_ENV['DB_PORT'] : '3307';
+
+// Membuat koneksi ke MariaDB/MySQL
+$conn = new mysqli($host, $user, $pass, $db, $port);
+
+// Cek koneksi
+if ($conn->connect_error) {
+    die("Koneksi ke database gagal: " . $conn->connect_error);
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -79,50 +107,42 @@
         </div>
     </section>
 
-    <!-- MY PROJECT -->
+        <!-- MY PROJECT -->
     <section id="services" class="text-center py-5">
         <div class="container section-wrap px-4">
             <span class="section-title">My Project</span>
             <div class="row g-4 mt-1">
-                <!-- Project 1 -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
-                        <img src="asset/img/a1.png" class="card-img-top" alt="Project 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Website Bootstrap</h5>
-                            <p class="card-text">Project dilakukan dengan menggunakan Bootstrap 5. diampu oleh Mas Sugi,
-                                selaku instruktur pemograman.</p>
-                            <a href="#" class="btn btn-primary">Detail</a>
+                
+                <?php
+                // Mengambil data proyek dari tabel 'services'
+                $query = "SELECT * FROM services";
+                $result = $conn->query($query);
+
+                if ($result->num_with_rows ?? $result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        ?>
+                        <!-- Card Project Otomatis Mengikuti Data di Database -->
+                        <div class="col-12 col-md-4">
+                            <div class="card h-100 bg-dark text-white border-0 shadow-sm">
+                                <img src="<?php echo $row['image']; ?>" class="card-img-top" alt="<?php echo $row['title']; ?>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $row['title']; ?></h5>
+                                    <p class="card-text"><?php echo $row['description']; ?></p>
+                                    <a href="#" class="btn btn-primary">Detail</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- Project 2 -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
-                        <img src="asset/img/a2.jpg" class="card-img-top" alt="Project 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Display Teks</h5>
-                            <p class="card-text">Project ini bertujuan untuk menampilkan teks dengan baik dan benar,
-                                serta diberi sound. diampu oleh Mas Johan, selaku instruktur protokol.</p>
-                            <a href="#" class="btn btn-primary">Detail</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project 3 -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 bg-dark text-white border-0 shadow-sm">
-                        <img src="asset/img/bg-2.png" class="card-img-top" alt="Project 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Diri Sendiri</h5>
-                            <p class="card-text">Project yang dilakukan dengan niat, usaha, dan kerja keras yang
-                                konsisten</p>
-                            <a href="#" class="btn btn-primary">Detail</a>
-                        </div>
-                    </div>
-                </div>
+                        <?php
+                    }
+                } else {
+                    echo "<p class='text-white'>Belum ada project yang ditambahkan.</p>";
+                }
+                ?>
+
             </div>
         </div>
     </section>
+
 
 
     <!-- ABOUT -->
@@ -174,28 +194,62 @@
         </div>
     </section>
 
-    <!-- CONTACT -->
+        <!-- CONTACT -->
     <section id="contact" class="text-center py-5">
         <div class="container section-wrap px-4">
             <span class="section-title">Contact</span>
-            <form class="col-12 col-lg-8 mx-auto">
+            
+            <?php
+            // Proses PHP untuk menyimpan data ke database saat tombol Kirim ditekan
+            $notif = "";
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['kirim_pesan'])) {
+                // Menangkap data dan membersihkannya dari karakter berbahaya
+                $nama = $conn->real_escape_string($_POST['nama']);
+                $email = $conn->secondary_email ?? $conn->real_escape_string($_POST['email']);
+                $pesan = $conn->real_escape_string($_POST['pesan']);
+
+                // Validasi sederhana agar input tidak boleh kosong
+                if (!empty($nama) && !empty($email) && !empty($pesan)) {
+                    $sql_insert = "INSERT INTO contacts (name, email, message) VALUES ('$nama', '$email', '$pesan')";
+                    
+                    if ($conn->query($sql_insert) === TRUE) {
+                        $notif = "<div class='alert alert-success col-12 col-lg-8 mx-auto'>Pesan Anda berhasil dikirim dan disimpan ke database!</div>";
+                    } else {
+                        $notif = "<div class='alert alert-danger col-12 col-lg-8 mx-auto'>Gagal mengirim pesan: " . $conn->error . "</div>";
+                    }
+                } else {
+                    $notif = "<div class='alert alert-warning col-12 col-lg-8 mx-auto'>Semua kolom wajib diisi!</div>";
+                }
+            }
+            
+            // Memunculkan notifikasi sukses/gagal di atas form
+            echo $notif;
+            ?>
+
+            <!-- Ditambahkan action ke diri sendiri dan method POST -->
+            <form action="#contact" method="POST" class="col-12 col-lg-8 mx-auto">
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
-                        <input type="text" class="form-control" placeholder="Nama" />
+                        <!-- Ditambahkan atribut name="nama" -->
+                        <input type="text" name="nama" class="form-control" placeholder="Nama" required />
                     </div>
                     <div class="col-12 col-md-6">
-                        <input type="email" class="form-control" placeholder="Email" />
+                        <!-- Ditambahkan atribut name="email" -->
+                        <input type="email" name="email" class="form-control" placeholder="Email" required />
                     </div>
                     <div class="col-12">
-                        <textarea class="form-control" rows="4" placeholder="Pesan"></textarea>
+                        <!-- Ditambahkan atribut name="pesan" -->
+                        <textarea name="pesan" class="form-control" rows="4" placeholder="Pesan" required></textarea>
                     </div>
                     <div class="col-12 text-start mt-3">
-                        <button type="button" class="btn btn-primary">Kirim</button>
+                        <!-- Mengubah type menjadi submit dan menambah name -->
+                        <button type="submit" name="kirim_pesan" class="btn btn-primary">Kirim</button>
                     </div>
                 </div>
             </form>
         </div>
     </section>
+
 
     <!-- FOOTER -->
     <footer class="bg-dark text-white py-4">
