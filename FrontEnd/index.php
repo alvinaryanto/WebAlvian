@@ -42,9 +42,9 @@ if ($conn->connect_error) {
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container section-wrap">
             <div class="logo">
-                <img src="asset/img/LOGO1.png" alt="LOGO">
+                <img src="asset/img/kotaroKeren.JPEG" alt="LOGO">
             </div>
-            <p class="h4 px-3">Michael Alvian</p>
+            <p class="h4 px-3">Michael Alvian B. A.</p>
             <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                 aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -60,88 +60,109 @@ if ($conn->connect_error) {
         </div>
     </nav>
 
-    <!-- HERO CAROUSEL -->
+        <!-- HERO CAROUSEL -->
     <section id="hero" class="py-5">
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="20000">
+            
+            <!-- INDICATORS -->
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
+                <?php
+                // Mengambil data untuk menghitung jumlah total baris indicator
+                $indicator_query = "SELECT * FROM carousel ORDER BY order_number ASC";
+                $indicator_result = $conn->query($indicator_query);
+                $count = 0;
+                if ($indicator_result && $indicator_result->num_rows > 0) {
+                    while($ind = $indicator_result->fetch_assoc()) {
+                        $active_class = ($count == 0) ? 'class="active" aria-current="true"' : '';
+                        echo '<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="'.$count.'" '.$active_class.' aria-label="Slide '.($count+1).'"></button>';
+                        $count++;
+                    }
+                }
+                ?>
             </div>
+
+            <!-- CAROUSEL INNER (KONTEN GAMBAR & TEXT) -->
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="asset/img/hero.jpg" class="d-block w-100 hero-img" alt="Slide 1">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Pos 2 - Bukit Mongkrang</h5>
-                        <p>Kecintaan terhadap Tuhan dan dan ciptaannya.</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="asset/img/bg-2.png" class="d-block w-100 hero-img" alt="Slide 2">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Gadget & Catatan</h5>
-                        <p>Dalam diriku selalu ada rasa ingin tau.</p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="asset/img/bg-1.png" class="d-block w-100 hero-img" alt="Slide 3">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Mouse & Keyboard</h5>
-                        <p>Diriku lahir untuk menggerakkan dan membuat.</p>
-                    </div>
-                </div>
+                <?php
+                // Mengambil data berdasarkan urutan nomor 'order_number' dari terkecil ke terbesar
+                $carousel_query = "SELECT * FROM carousel ORDER BY order_number ASC";
+                $carousel_result = $conn->query($carousel_query);
+                $is_first = true; // Penanda untuk memberikan kelas 'active' pada item pertama
+
+                if ($carousel_result && $carousel_result->num_rows > 0) {
+                    while($carousel_row = $carousel_result->fetch_assoc()) {
+                        // Konten pertama wajib menggunakan kelas 'active', konten selanjutnya tidak boleh
+                        $item_class = $is_first ? 'carousel-item active' : 'carousel-item';
+                        $is_first = false; // Setel menjadi false setelah item pertama lolos
+                        ?>
+                        
+                        <div class="with-carousel <?php echo $item_class; ?>">
+                            <img src="<?php echo $carousel_row['image']; ?>" class="d-block w-100 hero-img" alt="<?php echo $carousel_row['title']; ?>">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5><?php echo $carousel_row['title']; ?></h5>
+                                <p><?php echo $carousel_row['description']; ?></p>
+                            </div>
+                        </div>
+
+                        <?php
+                    }
+                } else {
+                    echo "<p class='text-center text-white py-5'>Belum ada gambar carousel.</p>";
+                }
+                ?>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                data-bs-slide="prev">
+
+            <!-- CONTROLS BUTTONS -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
     </section>
 
-        <!-- MY PROJECT -->
-    <section id="services" class="text-center py-5">
-        <div class="container section-wrap px-4">
-            <span class="section-title">My Project</span>
-            <div class="row g-4 mt-1">
-                
-                <?php
-                // Mengambil data proyek dari tabel 'services'
-                $query = "SELECT * FROM services";
-                $result = $conn->query($query);
 
-                if ($result->num_with_rows ?? $result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        ?>
-                        <!-- Card Project Otomatis Mengikuti Data di Database -->
-                        <div class="col-12 col-md-4">
-                            <div class="card h-100 bg-dark text-white border-0 shadow-sm">
-                                <img src="<?php echo $row['image']; ?>" class="card-img-top" alt="<?php echo $row['title']; ?>">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo $row['title']; ?></h5>
-                                    <p class="card-text"><?php echo $row['description']; ?></p>
-                                    <a href="#" class="btn btn-primary">Detail</a>
-                                </div>
+        <!-- MY PROJECT -->
+<section id="services" class="text-center py-5">
+    <div class="container section-wrap px-4">
+        <span class="section-title">My Project</span>
+        
+        <!-- TAMBAHKAN KELAS justify-content-center DI SINI -->
+        <div class="row g-4 mt-1 justify-content-center">
+            
+            <?php
+            // Mengambil data proyek dari tabel 'services'
+            $query = "SELECT * FROM services";
+            $result = $conn->query($query);
+
+            if ($result && $result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    ?>
+                    <!-- Card Project Otomatis Mengikuti Data di Database -->
+                    <div class="col-12 col-md-4">
+                        <div class="card h-100 bg-dark text-white border-0 shadow-sm">
+                            <img src="<?php echo $row['image']; ?>" class="card-img-top" alt="<?php echo $row['title']; ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $row['title']; ?></h5>
+                                <p class="card-text"><?php echo $row['description']; ?></p>
+                                <a href="#" class="btn btn-primary">Detail</a>
                             </div>
                         </div>
-                        <?php
-                    }
-                } else {
-                    echo "<p class='text-white'>Belum ada project yang ditambahkan.</p>";
+                    </div>
+                    <?php
                 }
-                ?>
+            } else {
+                echo "<p class='text-white'>Belum ada project yang ditambahkan.</p>";
+            }
+            ?>
 
-            </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
 
 
@@ -158,35 +179,17 @@ if ($conn->connect_error) {
                 </div>
                 <div class="col-12 col-md-6 text-center">
                     <h4 class="fw-bold mb-2 text-primary heading-hover">Performance</h4>
-                    <div class="wave mt-3 text-start">
-                        <div class="row g-3">
-                            <div class="col-12 col-md-6">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item bg-transparent text-white">
-                                        <strong>HTML & CSS</strong> — Membuat tampilan web responsif dengan Bootstrap 5
-                                    </li>
-                                    <li class="list-group-item bg-transparent text-white">
-                                        <strong>JavaScript</strong> — Menambahkan interaktivitas pada website
-                                    </li>
-                                    <li class="list-group-item bg-transparent text-white">
-                                        <strong>Bootstrap</strong> — Membangun layout cepat dan konsisten
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item bg-transparent text-white">
-                                        <strong>Git & GitHub</strong> — Versi kontrol dan kolaborasi
-                                    </li>
-                                    <li class="list-group-item bg-transparent text-white">
-                                        <strong>Microsoft Office</strong> — Mengelola dokumen, data, dan presentasi
-                                    </li>
-                                    <li class="list-group-item bg-transparent text-white">
-                                        <strong>Desain Grafis</strong> — Pengalaman dasar dengan Canva & Photoshop
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+<div class="wave mt-3 text-start">
+    <div class="row g-3">
+        <div class="col-12">
+            <!-- Tempat Grafik Digambar (Bisa disesuaikan tingginya via inline style) -->
+            <div class="bg-dark p-3 rounded border border-secondary" style="min-height: 220px;">
+                <canvas id="mySkillChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
                     </div>
 
                 </div>
@@ -271,10 +274,10 @@ if ($conn->connect_error) {
 
                 <!-- Sosial Media -->
                 <div class="col-md-4 text-center text-md-end">
-                    <a href="#" class="text-white mx-2"><i class="bi bi-facebook">facebook</i></a>
-                    <a href="#" class="text-white mx-2"><i class="bi bi-instagram">instagram</i></a>
-                    <a href="#" class="text-white mx-2"><i class="bi bi-linkedin">linkedin</i></a>
-                    <a href="#" class="text-white mx-2"><i class="bi bi-github">github</i></a>
+                    <a href="https://www.facebook.com/share/1EQcLw9ayy/" class="text-white mx-2"><i class="bi bi-facebook">facebook</i></a>
+                    <a href="https://www.instagram.com/michaelalvian?igsh=MXN1bDhxbXhzY2I1ZA==" class="text-white mx-2"><i class="bi bi-instagram">instagram</i></a>
+                    <a href="https://www.linkedin.com/in/michael-alvian-brilliant-aryanto-3338693b1?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="text-white mx-2"><i class="bi bi-linkedin">linkedin</i></a>
+                    <a href="https://github.com/alvinaryanto" class="text-white mx-2"><i class="bi bi-github">github</i></a>
                 </div>
             </div>
 
@@ -292,6 +295,75 @@ if ($conn->connect_error) {
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="asset/js/bootstrap.bundle.js"></script>
     <script src="asset/js/js.js"></script>
+
+    <!-- 1. Panggil Pustaka Utama Chart.js dari CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<?php
+// 2. Ambil data numerik dari tabel 'chart_data' database portfolio_db
+$labels = [];
+$values = [];
+$chart_query = "SELECT * FROM chart_data";
+$chart_result = $conn->query($chart_query);
+
+if ($chart_result && $chart_result->num_rows > 0) {
+    while($chart_row = $chart_result->fetch_assoc()) {
+        $labels[] = $chart_row['label']; // Menyimpan nama skill (HTML, JS, PHP)
+        $values[] = $chart_row['value']; // Menyimpan nilai angka (85, 70, 60)
+    }
+}
+?>
+
+<script>
+// 3. Logika Menggambar Grafik Menggunakan Data Database
+const ctx = document.getElementById('mySkillChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar', // Jenis grafik: Batang (Bisa diganti 'pie' atau 'line')
+    data: {
+        labels: <?php echo json_encode($labels); ?>, // Mengubah array PHP menjadi Array JS
+        datasets: [{
+            label: 'Skill Level (%)',
+            data: <?php echo json_encode($values); ?>, // Mengubah nilai PHP menjadi Array JS
+            backgroundColor: [
+                'rgba(13, 110, 253, 0.7)', // Biru Bootstrap
+                'rgba(255, 193, 7, 0.7)',  // Kuning Bootstrap
+                'rgba(25, 135, 84, 0.7)'   // Hijau Bootstrap
+            ],
+            borderColor: ['#0d6efd', '#ffc107', '#198754'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: { color: '#ffffff' }, // Warna angka Y putih
+                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            },
+            x: {
+                ticks: { color: '#ffffff' }, // Warna teks label X putih
+                grid: { display: false }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: { color: '#ffffff' } // Warna teks legenda putih
+            }
+        }
+    }
+});
+</script>
+<?php
+// Memastikan koneksi ke database MariaDB ditutup secara aman sebelum halaman berakhir
+if (isset($conn)) {
+    $conn->close();
+}
+?>
+</html>
+
 </body>
 
 </html>
