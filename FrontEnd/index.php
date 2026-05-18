@@ -260,8 +260,8 @@ if ($conn->connect_error) {
             <div class="row align-items-center">
                 <!-- Logo & Nama -->
                 <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
-                    <img src="asset/img/LOGO1.png" alt="Logo" style="height:40px;">
-                    <span class="ms-2 fw-bold">Michael Alvian</span>
+                    <img src="asset/img/kotaroKeren.JPEG" alt="Logo" style="height:40px;">
+                    <span class="ms-2 fw-bold">Michael Alvian B. A.</span>
                 </div>
 
                 <!-- Menu Cepat -->
